@@ -1,14 +1,17 @@
 package service
 
 import (
+	"github.com/dMuto/umhelp-servidor-distopico/config"
+	"github.com/dMuto/umhelp-servidor-distopico/repo"
 	"github.com/rs/zerolog"
-	"github.com/savi2w/pupper/config"
-	"github.com/savi2w/pupper/repo"
 )
 
 type Service struct {
+	User *UserService
 }
 
 func New(cfg *config.Config, logger *zerolog.Logger, repo *repo.RepoManager) *Service {
-	return &Service{}
+	return &Service{
+		User: NewUserService(cfg, logger, repo),
+	}
 }

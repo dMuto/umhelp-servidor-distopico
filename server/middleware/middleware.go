@@ -1,10 +1,10 @@
 package middleware
 
 import (
+	"github.com/dMuto/umhelp-servidor-distopico/config"
+	"github.com/dMuto/umhelp-servidor-distopico/consts"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/savi2w/pupper/config"
-	"github.com/savi2w/pupper/consts"
 )
 
 func SetMiddlewares(e *echo.Echo, cfg *config.Config) {

@@ -5,12 +5,12 @@ import (
 	"sync"
 
 	echoadapter "github.com/awslabs/aws-lambda-go-api-proxy/echo"
+	"github.com/dMuto/umhelp-servidor-distopico/config"
+	"github.com/dMuto/umhelp-servidor-distopico/server/controller"
+	"github.com/dMuto/umhelp-servidor-distopico/server/middleware"
+	"github.com/dMuto/umhelp-servidor-distopico/server/router"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog"
-	"github.com/savi2w/pupper/config"
-	"github.com/savi2w/pupper/server/controller"
-	"github.com/savi2w/pupper/server/middleware"
-	"github.com/savi2w/pupper/server/router"
 )
 
 var (

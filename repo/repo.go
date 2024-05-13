@@ -1,9 +1,9 @@
 package repo
 
 import (
-	"github.com/savi2w/pupper/config"
-	"github.com/savi2w/pupper/repo/mysql"
-	"github.com/savi2w/pupper/repo/redis"
+	"github.com/dMuto/umhelp-servidor-distopico/config"
+	"github.com/dMuto/umhelp-servidor-distopico/repo/mysql"
+	"github.com/dMuto/umhelp-servidor-distopico/repo/redis"
 )
 
 type RepoManager struct {

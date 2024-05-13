@@ -5,12 +5,12 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
-	"github.com/savi2w/pupper/config"
-	"github.com/savi2w/pupper/logger"
-	"github.com/savi2w/pupper/repo"
-	"github.com/savi2w/pupper/server"
-	"github.com/savi2w/pupper/server/controller"
-	"github.com/savi2w/pupper/service"
+	"github.com/dMuto/umhelp-servidor-distopico/config"
+	"github.com/dMuto/umhelp-servidor-distopico/logger"
+	"github.com/dMuto/umhelp-servidor-distopico/repo"
+	"github.com/dMuto/umhelp-servidor-distopico/server"
+	"github.com/dMuto/umhelp-servidor-distopico/server/controller"
+	"github.com/dMuto/umhelp-servidor-distopico/service"
 )
 
 func main() {

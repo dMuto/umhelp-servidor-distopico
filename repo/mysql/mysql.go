@@ -3,13 +3,14 @@ package mysql
 import (
 	"time"
 
+	"github.com/dMuto/umhelp-servidor-distopico/config"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com/savi2w/pupper/config"
 )
 
 type Repo struct {
-	cli *sqlx.DB
+	User *User
+	cli  *sqlx.DB
 }
 
 func New(cfg *config.Config) (*Repo, error) {
@@ -29,6 +30,6 @@ func New(cfg *config.Config) (*Repo, error) {
 	}
 
 	return &Repo{
-		cli: cli,
+		User: &User{cli: cli},
 	}, nil
 }
