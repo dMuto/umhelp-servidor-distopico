@@ -28,7 +28,7 @@ func (ctrl *Controller) HandleNewUser(ctx echo.Context) error {
 	}
 
 	if err := ctrl.svc.User.NewUser(ctx.Request().Context(), req); err != nil {
-		return ctx.JSON(ctrl.resutil.Wrap(nil, nil, http.StatusCreated))
+		return ctx.JSON(ctrl.resutil.Wrap(nil, err, http.StatusInternalServerError))
 	}
 
 	return ctx.JSON(ctrl.resutil.Wrap(nil, nil, http.StatusCreated))
