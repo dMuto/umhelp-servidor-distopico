@@ -1,10 +1,7 @@
 package service
 
 import (
-	"context"
-
 	"github.com/dMuto/umhelp-servidor-distopico/config"
-	"github.com/dMuto/umhelp-servidor-distopico/model"
 	"github.com/dMuto/umhelp-servidor-distopico/repo"
 	"github.com/rs/zerolog"
 )
@@ -23,14 +20,15 @@ func newWalletService(cfg *config.Config, logger *zerolog.Logger, repo *repo.Rep
 	}
 }
 
-func (s *WalletService) New(ctx context.Context, userId, currencyId int64, alias string) error {
+/*func (s *WalletService) New(tx *sqlx.Tx, ctx context.Context, ) error {
 	wallet := &model.Wallet{
 		IDOwner:    userId,
 		IDCurrency: currencyId,
 		Alias:      alias,
 	}
 
+
 	s.Logger.Info().Msgf("creating wallet for user %d", wallet.IDOwner)
 
-	return s.Respo.MySQL.Wallet.InsertWallet(ctx, wallet)
-}
+	return s.Respo.MySQL.Wallet.InsertWallet(tx ,ctx, wallet)
+}*/

@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/dMuto/umhelp-servidor-distopico/config"
 	"github.com/dMuto/umhelp-servidor-distopico/model"
@@ -14,7 +16,6 @@ type UserService struct {
 	Config        *config.Config
 	Logger        *zerolog.Logger
 	Repo          *repo.RepoManager
-	walletService *WalletService
 }
 
 func NewUserService(cfg *config.Config, logger *zerolog.Logger, repo *repo.RepoManager, walletService *WalletService) *UserService {
@@ -22,11 +23,8 @@ func NewUserService(cfg *config.Config, logger *zerolog.Logger, repo *repo.RepoM
 		Config:        cfg,
 		Logger:        logger,
 		Repo:          repo,
-		walletService: walletService,
 	}
 }
-
-const BRL = 1
 
 func (s *UserService) NewUser(ctx context.Context, r *req.User) (u *model.User, err error) {
 	user := &model.User{
@@ -37,17 +35,38 @@ func (s *UserService) NewUser(ctx context.Context, r *req.User) (u *model.User, 
 		Password: r.Password,
 	}
 
-	//tx, err := s.Repo.MySQL.Beg
-
-	userId, err := s.Repo.MySQL.User.InsertUser(ctx, user)
-	if err != nil {
-		return err
+	tx, err := s.Repo.MySQL.BeginReadCommittedTx(ctx)
+	if err != nil{
+		return nil, err
 	}
 
-	err = s.walletService.New(ctx, userId, BRL, "Default Wallet")
+	defer tx.Rollback()
+
+	userId, err := s.Repo.MySQL.User.InsertUser(tx, ctx, user)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	user.IdUser = userId
+
+	currency, found, err := s.Repo.MySQL.Currency.SelectByCurrencyCode(tx, ctx, model.CurrencyBRL)
+	if err != nil{
+		return nil, err
+	}
+
+	if !found{
+		return nil, fmt.Errorf("cannot find `%s` currency in database", model.CurrencyBRL)
+	}
+	
+	walletModel := &model.Wallet{
+		IDOwner: user.IdUser,
+		IDCurrency: currency.IDCurrency,
+		Alias: strings.Join([]string{user.Name + "'s", "Wallet"}, " "),
+	}
+
+	if err = s.Repo.MySQL.Wallet.InsertWallet(tx, ctx, walletModel); err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }

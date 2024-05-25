@@ -7,7 +7,12 @@ import (
 )
 
 func Register(cfg *config.Config, svr *echo.Echo, ctrl *controller.Controller) {
-	root := svr.Group("")
+	root := svr.Group("/um-help-distopic")
 	root.GET("/health", ctrl.HealthController.HealthCheck)
-	root.POST("/create-account", ctrl.UserController.HandleNewUser)
+	
+	userGroup := root.Group("/user")
+	userGroup.POST("/create-account", ctrl.UserController.HandleNewUser)
+
+	//walletGroup := root.Group("/wallet")
+	//walletGroup.POST("/send-money",)
 }

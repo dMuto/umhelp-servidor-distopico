@@ -1,6 +1,8 @@
 package mysql
 
 import (
+	"context"
+	"database/sql"
 	"time"
 
 	"github.com/dMuto/umhelp-servidor-distopico/config"
@@ -9,9 +11,10 @@ import (
 )
 
 type Repo struct {
-	User   *User
-	Wallet *Wallet
-	cli    *sqlx.DB
+	User     *User
+	Wallet   *Wallet
+	Currency *Currency
+	cli      *sqlx.DB
 }
 
 func New(cfg *config.Config) (*Repo, error) {
@@ -31,7 +34,15 @@ func New(cfg *config.Config) (*Repo, error) {
 	}
 
 	return &Repo{
-		User: &User{cli: cli},
+		//Currency: &Currency{cli, cli},
+		User:   &User{cli: cli},
 		Wallet: &Wallet{cli: cli},
+		cli:    cli,
 	}, nil
+}
+
+func (r *Repo) BeginReadCommittedTx(ctx context.Context) (*sqlx.Tx, error) {
+	return r.cli.BeginTxx(ctx, &sql.TxOptions{
+		Isolation: sql.LevelReadCommitted,
+	})
 }
